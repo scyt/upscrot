@@ -47,6 +47,7 @@ def init_config():
             'base_url': 'https://example.org/tmp/screenshots/',
             'file_prefix': 'screenshot-',
             'file_permissions': '0644',
+            # 'ssh_key': '~/id_rsa',
         }
         with open(confpath, 'w+') as f:
             config.write(f)
@@ -79,6 +80,7 @@ def main(config):
         subprocess.check_call([
             'scp',
             '-P', config['upload'].get('target_port', '22'),
+            '-i', config['upload']['ssh_key'],
             screenshot.name,
             '%s:%s' % (config['upload']['target_host'], config['upload']['target_dir']),
         ])
